@@ -317,13 +317,11 @@ textColor="#000000"
 
     # OR load sample dataset button
     st.markdown("### OR")
-    load_sample = st.button("Load a sample dataset")
+    if st.button("Load a sample dataset"):
+        df_loaded = pd.read_excel("Test_file.xlsx")
+        df_OS = pd.read_excel("Test_file.xlsx", sheet_name="OS")
 
-    # Load uploaded Excel
-    if load_sample is not None:
-        df_loaded = pd.read_excel('Test_file.xlsx')
-        df_OS = pd.read_excel('Test_file.xlsx', sheet_name='OS')
-   
+
     # If a DataFrame was successfully loaded, store in session state and show preview
     if df_loaded is not None:
         st.session_state.df = df_loaded
