@@ -87,18 +87,6 @@ def format_four_decimals(df):
     return df_formatted
 
 
-def load_comments():
-    if os.path.exists(DATA_FILE):
-        with open(DATA_FILE, "rb") as f:
-            return pickle.load(f)
-    return []
-
-
-def save_comments(comments):
-    with open(DATA_FILE, "wb") as f:
-        pickle.dump(comments, f)
-
-
 def to_month_start(x):
     """
     Convert a date or collection of dates to the first day of the month.
@@ -159,8 +147,8 @@ def adjust_quarter_max_to_15th(date_series: pd.Series) -> pd.Series:
 #                       STEP 1
 # ============================================================
 if st.session_state.step == 1:
-    st.title("Non-Life Reserving")
-    st.header("Sheet 1: Load Data")
+    st.title("Reserving Data Triangles")
+    st.header("Step 1: Load Data")
 
     # File upload
     uploaded_file = st.file_uploader("Upload file")
@@ -349,7 +337,7 @@ textColor="#000000"
 #                       STEP 2
 # ============================================================
 elif st.session_state.step == 2:
-    st.title("Sheet 2: Reserving Configuration")
+    st.title("Step 2: Reserving Configuration")
 
 
     segments = st.session_state.df['Line of Business'].unique().tolist()
@@ -467,7 +455,7 @@ elif st.session_state.step == 2:
 elif st.session_state.step == 3:
 
     #st.write("---")
-    st.title("Sheet 2.5: Selected Configuration")
+    st.title("Step 2.5: Selected Configuration")
 
     q0 = st.session_state.get("q0", "")
     q1 = st.session_state.get("q1", "Accident")
@@ -532,7 +520,7 @@ elif st.session_state.step == 3:
 #                       STEP 3
 # ============================================================
 elif st.session_state.step == 4:
-    st.title("Sheet 3: Incremental Triangles")
+    st.title("Step 3: Incremental Triangles")
 
     
 
@@ -800,7 +788,7 @@ elif st.session_state.step == 4:
 #                       STEP 4
 # ============================================================
 elif st.session_state.step == 5:
-    st.title('Sheet 4: Cummulative Triangles')
+    st.title('Step 4: Cummulative Triangles')
 
     # build a dict of possible objects (use the keys you want shown)
     candidates = {
@@ -944,7 +932,7 @@ elif st.session_state.step == 5:
 #                       STEP 5
 # ============================================================
 elif st.session_state.step == 6:
-    st.title('Sheet 5: Ratios and Averages')
+    st.title('Step 5: Ratios and Averages')
     st.title('Link Ratios')
 
     # build a dict of possible objects (use the keys you want shown)
