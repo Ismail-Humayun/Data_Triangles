@@ -1,0 +1,26 @@
+
+[theme]
+# Primary brand color
+primaryColor = "#C02739"            # Your red, still the main accent
+
+# Background colors
+backgroundColor = "#1B1F2B"         # Dark slate, not too harsh on eyes
+secondaryBackgroundColor = "#272D3A" # Slightly lighter for cards/panels
+
+# Text colors
+textColor = "#E5E7EB"               # Soft white, high contrast but not glaring
+mutedTextColor = "#A0AEC0"          # Gray for secondary info, less harsh
+
+# Accent & UI colors
+accentColor = "#3B82F6"             # Blue highlights, links, buttons
+successColor = "#34D399"            # Green for success
+warningColor = "#FBBF24"            # Yellow for alerts/warnings
+errorColor = "#EF4444"              # Red for errors
+
+# Fonts
+font = "Inter, sans-serif"          # Modern, readable
+
+# UI polish
+cardBorderColor = "#374151"         # Subtle border for panels/cards
+cardShadowColor = "rgba(0,0,0,0.4)" # Soft shadow for depth
+buttonHoverColor = "#A31B2A"        # Darker red for hover
