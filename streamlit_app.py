@@ -148,52 +148,11 @@ def adjust_quarter_max_to_15th(date_series: pd.Series) -> pd.Series:
 # ============================================================
 if st.session_state.step == 1:
     st.title("Reserving Data Triangles")
-    st.header("Step 1: Load Data")
-
-    # File upload
-    uploaded_file = st.file_uploader("Upload file")
-
-    df_loaded = None  # Temporary variable for the loaded DataFrame
-    if uploaded_file is not None:
-        try:
-            # Let pandas try to figure it out
-            if uploaded_file.name.endswith('.csv'):
-                df_loaded = pd.read_csv(uploaded_file)
-                df_OS = pd.read_csv(uploaded_file, sheet_name = 'OS')
-            elif uploaded_file.name.endswith(('.xls', '.xlsx')):
-                df_loaded = pd.read_excel(uploaded_file)
-                df_OS = pd.read_excel(uploaded_file, sheet_name = 'OS')
-            elif uploaded_file.name.endswith('.json'):
-                df_loaded = pd.read_json(uploaded_file)
-                df_OS = pd.read_json(uploaded_file, sheet_name = 'OS')
-            elif uploaded_file.name.endswith('.parquet'):
-                df_loaded = pd.read_parquet(uploaded_file)
-                df_OS = pd.read_parquet(uploaded_file, sheet_name = 'OS')
-            else:
-                st.error("Unsupported file format")
-                st.stop()
-                
-            #st.dataframe(df)
-        except Exception as e:
-            st.error(f"Error reading file: {e}")
-
-
-   
-    # If a DataFrame was successfully loaded, store in session state and show preview
-    if df_loaded is not None:
-        st.session_state.df = df_loaded
-        st.session_state.df_OS = df_OS
-        st.title('Paid')
-        st.dataframe(df_loaded.head())
-        st.title('OS')
-        st.dataframe(df_OS.head())
-        st.info("Preview shows the first 5 rows of your file.")
-
-    # -----------------------------
+        # -----------------------------
     # Theme Selector (New)
     # -----------------------------
     st.write("---")
-    st.subheader("🎨 Theme Selector")
+    st.header("Theme Selector")
 
     theme_options = {"Default-Dark":"""
 [theme]
@@ -323,7 +282,57 @@ textColor="#000000"
         with open(config_path, "w") as f:
             f.write(theme_options[selected_theme])
 
-        st.success("Theme updated! Please refresh the page to see changes.")
+        st.success("Theme updated! Please re-run the page to see changes.")
+
+
+    st.header("Step 1: Load Data")
+
+    # File upload
+    uploaded_file = st.file_uploader("Upload file")
+
+    df_loaded = None  # Temporary variable for the loaded DataFrame
+    if uploaded_file is not None:
+        try:
+            # Let pandas try to figure it out
+            if uploaded_file.name.endswith('.csv'):
+                df_loaded = pd.read_csv(uploaded_file)
+                df_OS = pd.read_csv(uploaded_file, sheet_name = 'OS')
+            elif uploaded_file.name.endswith(('.xls', '.xlsx')):
+                df_loaded = pd.read_excel(uploaded_file)
+                df_OS = pd.read_excel(uploaded_file, sheet_name = 'OS')
+            elif uploaded_file.name.endswith('.json'):
+                df_loaded = pd.read_json(uploaded_file)
+                df_OS = pd.read_json(uploaded_file, sheet_name = 'OS')
+            elif uploaded_file.name.endswith('.parquet'):
+                df_loaded = pd.read_parquet(uploaded_file)
+                df_OS = pd.read_parquet(uploaded_file, sheet_name = 'OS')
+            else:
+                st.error("Unsupported file format")
+                st.stop()
+                
+            #st.dataframe(df)
+        except Exception as e:
+            st.error(f"Error reading file: {e}")
+
+
+    # OR load sample dataset button
+    st.markdown("### OR")
+    load_sample = st.button("Load a sample dataset")
+
+    # Load uploaded Excel
+    if load_sample is not None:
+        df_loaded = pd.read_excel('Test_file.xlsx')
+        df_OS = pd.read_excel('Test_file.xlsx', sheet_name='OS')
+   
+    # If a DataFrame was successfully loaded, store in session state and show preview
+    if df_loaded is not None:
+        st.session_state.df = df_loaded
+        st.session_state.df_OS = df_OS
+        st.title('Paid')
+        st.dataframe(df_loaded.head())
+        st.title('OS')
+        st.dataframe(df_OS.head())
+        st.info("Preview shows the first 5 rows of your file.")
 
 
 
