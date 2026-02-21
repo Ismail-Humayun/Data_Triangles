@@ -996,7 +996,12 @@ elif st.session_state.step == 6:
         # OS Conditional
         if st.session_state.q10 == "Paid + Incurred":    
             if hasattr(obj_OS, "columns") and hasattr(obj_OS, "dtypes"):
-                obj_OS = cl.Triangle(data = obj_OS, origin = "Accident/Treatment Date", development = "Reporting Date", columns = ["Gross Claim Amount OS as at","Earned Premiums"] ,is_cumulative = False)
+                if choice == 'RI':
+                    obj_OS = cl.Triangle(data = obj_OS, origin = "Accident/Treatment Date", development = "Reporting Date", columns = ["RI", "Earned Premiums"] ,is_cumulative = False)
+                elif choice == 'SS':
+                    obj_OS = cl.Triangle(data = obj_OS, origin = "Accident/Treatment Date", development = "Reporting Date", columns = ["SS", "Earned Premiums"] ,is_cumulative = False)    
+                else:
+                    obj_OS = cl.Triangle(data = obj_OS, origin = "Accident/Treatment Date", development = "Reporting Date", columns = ["Gross Claim Amount OS as at","Earned Premiums"] ,is_cumulative = False)
 
             # If it's a triangle-like object, convert to frame; otherwise assume it's already a DataFrame
             if hasattr(obj_OS, "to_frame"):
