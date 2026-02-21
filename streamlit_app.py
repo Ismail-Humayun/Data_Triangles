@@ -971,12 +971,7 @@ elif st.session_state.step == 6:
 
 
         if hasattr(obj, "columns") and hasattr(obj, "dtypes"):
-            if choice == 'RI':
-                obj = cl.Triangle(data = obj, origin = "Accident/Treatment Date", development = "Payment Date", columns = ["RI", "Earned Premiums"] ,is_cumulative = False)
-            elif choice == 'SS':
-                obj = cl.Triangle(data = obj, origin = "Accident/Treatment Date", development = "Payment Date", columns = ["SS", "Earned Premiums"] ,is_cumulative = False)    
-            else:    
-                obj = cl.Triangle(data = obj, origin = "Accident/Treatment Date", development = "Payment Date", columns = ["Gross Claim Amount Paid as at", "Earned Premiums"] ,is_cumulative = False)
+            obj = cl.Triangle(data = obj, origin = "Accident/Treatment Date", development = "Payment Date", columns = ["Gross Claim Amount Paid as at", "Earned Premiums"] ,is_cumulative = False)
 
         # If it's a triangle-like object, convert to frame; otherwise assume it's already a DataFrame
         if hasattr(obj, "to_frame"):
@@ -986,8 +981,15 @@ elif st.session_state.step == 6:
             obj.development = pd.Index([i+1 for i in range(obj.development.size)])
             #obj.valuation = 
             obj_paid_copy = obj.copy()
-            obj_temp = obj['Gross Claim Amount Paid as at'].copy()
-            obj = obj['Gross Claim Amount Paid as at'].link_ratio
+            if choice == 'RI':
+                obj_temp = obj['RI'].copy()
+                obj = obj['RI'].link_ratio
+            elif choice == 'SS':
+                obj_temp = obj['SS'].copy()
+                obj = obj['SS'].link_ratio
+            else:
+                obj_temp = obj['Gross Claim Amount Paid as at'].copy()
+                obj = obj['Gross Claim Amount Paid as at'].link_ratio
             df_to_show = obj.to_frame(origin_as_datetime=False)
         else:
             df_to_show = obj.copy() if hasattr(obj, "copy") else obj
@@ -996,12 +998,7 @@ elif st.session_state.step == 6:
         # OS Conditional
         if st.session_state.q10 == "Paid + Incurred":    
             if hasattr(obj_OS, "columns") and hasattr(obj_OS, "dtypes"):
-                if choice == 'RI':
-                    obj_OS = cl.Triangle(data = obj_OS, origin = "Accident/Treatment Date", development = "Reporting Date", columns = ["RI", "Earned Premiums"] ,is_cumulative = False)
-                elif choice == 'SS':
-                    obj_OS = cl.Triangle(data = obj_OS, origin = "Accident/Treatment Date", development = "Reporting Date", columns = ["SS", "Earned Premiums"] ,is_cumulative = False)    
-                else:
-                    obj_OS = cl.Triangle(data = obj_OS, origin = "Accident/Treatment Date", development = "Reporting Date", columns = ["Gross Claim Amount OS as at","Earned Premiums"] ,is_cumulative = False)
+                obj_OS = cl.Triangle(data = obj_OS, origin = "Accident/Treatment Date", development = "Reporting Date", columns = ["Gross Claim Amount OS as at","Earned Premiums"] ,is_cumulative = False)
 
             # If it's a triangle-like object, convert to frame; otherwise assume it's already a DataFrame
             if hasattr(obj_OS, "to_frame"):
@@ -1009,7 +1006,12 @@ elif st.session_state.step == 6:
                 obj_OS = obj_OS.grain(st.session_state.grain)
                 os_dev = obj_OS.development
                 obj_OS.development = pd.Index([i+1 for i in range(obj_OS.development.size)])
-                obj_Incurred =  obj_OS['Gross Claim Amount OS as at'] + obj_temp # This is where OS becomes incurred
+                if choice == 'RI':
+                    obj_Incurred =  obj_OS['RI'] + obj_temp # This is where OS becomes incurred
+                elif choice == 'SS':
+                    obj_Incurred =  obj_OS['SS'] + obj_temp # This is where OS becomes incurred
+                else:
+                    obj_Incurred =  obj_OS['Gross Claim Amount OS as at'] + obj_temp # This is where OS becomes incurred
                 obj_Incurred.is_cumulative = True # Necessary for proper averages
 
                 # # Step 1: find the minimum valuation date
@@ -1085,7 +1087,12 @@ elif st.session_state.step == 6:
             #st.write(obj_paid_copy['Gross Claim Amount Paid as at'].valuation)
             #st.write(obj_paid_copy['Gross Claim Amount Paid as at'].valuation_date)
             #st.write(obj_paid_copy['Gross Claim Amount Paid as at'].origin)
-            model = cl.Development(average=avg_method1).fit(obj_paid_copy['Gross Claim Amount Paid as at']).ldf_
+            if choice == 'RI':
+                model = cl.Development(average=avg_method1).fit(obj_paid_copy['RI']).ldf_
+            elif choice == 'SS':
+                model = cl.Development(average=avg_method1).fit(obj_paid_copy['SS']).ldf_
+            else:
+                model = cl.Development(average=avg_method1).fit(obj_paid_copy['Gross Claim Amount Paid as at']).ldf_
             obj_avg = model.to_frame()
 
             st.subheader("Calculated LDF:")
