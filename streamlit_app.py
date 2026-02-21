@@ -351,7 +351,7 @@ elif st.session_state.step == 2:
     q0 = st.radio("0. Reserving Segment?", segments)
     q1 = st.radio("1. Would you like to use Accident years or Underwriting years?", ["Accident", "Underwriting"])
     q2 = st.radio("2. What type of analysis are you looking for?", ["Gross + RI", "Gross + Net", "Gross"])
-    q3 = st.radio("3. Salvage and Subrogation applicable?", ["Yes", "No"])
+    q3 = st.radio("3. Salvage and Subrogation applicable?", ["No", "Yes"])
     ss_choice3 = ""
     if q3 == "Yes":
         ss_choice3 = st.selectbox(
@@ -377,7 +377,7 @@ elif st.session_state.step == 2:
         )
 
     q6 = st.radio("6. Policy Measure?", ["Exposures", "Earned Premiums", "Neither"])
-    q7 = st.radio("7. ALAE?", ["Yes", "No"])
+    q7 = st.radio("7. ALAE?", ["No", "Yes"])
     ss_choice7 = ""
     if q7 == "Yes":
         ss_choice7 = st.selectbox(
