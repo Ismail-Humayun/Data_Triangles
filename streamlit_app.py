@@ -359,7 +359,7 @@ elif st.session_state.step == 2:
             ["Gross and SS separately", "Net of SS"]
         )
 
-    q4 = st.radio("4. Large Claims separately?", ["Yes", "No"])
+    q4 = st.radio("4. Large Claims separately?", ["No", "Yes"])
     threshold, ss_choice4 = 0, ""
     if q4 == "Yes":
         threshold = st.number_input("Enter threshold for large claims:", min_value=0.0, step=1.0)
