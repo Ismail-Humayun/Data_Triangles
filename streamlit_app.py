@@ -689,8 +689,8 @@ elif st.session_state.step == 4:
         # If it's a triangle-like object, convert to frame; otherwise assume it's already a DataFrame
         if hasattr(obj, "to_frame"):
             obj.is_cumulative = False
-            obj_temp1 = obj.copy()
             obj = obj.grain(st.session_state.grain)
+            obj_temp1 = obj.copy()
             obj.development = pd.Index([i+1 for i in range(obj.development.size)]) # Make column names the same
             obj_temp = obj.copy()
             df_to_show = obj.to_frame(origin_as_datetime=False)
