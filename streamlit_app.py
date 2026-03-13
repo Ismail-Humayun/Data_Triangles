@@ -708,10 +708,12 @@ elif st.session_state.step == 4:
             if hasattr(obj_OS, "to_frame"):
                 obj_OS.is_cumulative = False
                 obj_OS = obj_OS.grain(st.session_state.grain)
+                obj_OS_temp = obj_OS.copy()
                 obj_OS.development = pd.Index([i+1 for i in range(obj_OS.development.size)])
                 obj_Incurred = obj_OS + obj_temp # This is where OS becomes incurred
                 df_to_show_OS = obj_OS.to_frame(origin_as_datetime=False)
                 df_to_show_Incurred = obj_Incurred.to_frame(origin_as_datetime=False)
+                df_to_show_OS_temp = obj_OS_temp.to_frame(origin_as_datetime=False)
                 #df_to_show_OS = df_to_show_OS + df_to_show
             else:
                 df_to_show_OS = obj_OS.copy() if hasattr(obj_OS, "copy") else obj_OS
@@ -723,7 +725,7 @@ elif st.session_state.step == 4:
             df_to_show3 = format_numeric_nans(df_to_show3)
             if st.session_state.q10 == "Paid + Incurred":
                 df_to_show_OS = format_numeric_nans(df_to_show_OS)
-                df_to_show_Incurred = format_numeric_nans(df_to_show_Incurred)
+                df_to_show_Incurred = format_numeric_nans(df_to_show_Incurred) 
         except Exception:
             pass
 
@@ -746,7 +748,17 @@ elif st.session_state.step == 4:
         )
 
         if st.session_state.q10 == "Paid + Incurred":
-            st.title('OS')
+            st.title('OS ChainLadder')
+            st.dataframe(
+            df_to_show_OS_temp,
+            column_config={
+                col: st.column_config.TextColumn(width="small")
+                for col in df_to_show_OS_temp.columns
+            }            
+        )
+            
+            
+            st.title('OS Modified')
             st.dataframe(
             df_to_show_OS,
             column_config={
