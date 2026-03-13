@@ -720,6 +720,7 @@ elif st.session_state.step == 4:
         # Optional: format numeric columns if you have a helper
         try:
             df_to_show = format_numeric_nans(df_to_show)
+            df_to_show3 = format_numeric_nans(df_to_show3)
             if st.session_state.q10 == "Paid + Incurred":
                 df_to_show_OS = format_numeric_nans(df_to_show_OS)
                 df_to_show_Incurred = format_numeric_nans(df_to_show_Incurred)
