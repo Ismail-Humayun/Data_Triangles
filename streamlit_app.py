@@ -725,6 +725,7 @@ elif st.session_state.step == 4:
             df_to_show3 = format_numeric_nans(df_to_show3)
             if st.session_state.q10 == "Paid + Incurred":
                 df_to_show_OS = format_numeric_nans(df_to_show_OS)
+                df_to_show_OS_temp = format_numeric_nans(df_to_show_OS_temp)
                 df_to_show_Incurred = format_numeric_nans(df_to_show_Incurred) 
         except Exception:
             pass
