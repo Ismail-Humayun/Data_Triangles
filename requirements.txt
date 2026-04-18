@@ -1,7 +1,7 @@
 streamlit
 pandas
 openpyxl
-chainladder==0.8.19
-ipython>=7.0.0
-sparse==0.13.0
-numpy<2.0
+chainladder
+ipython
+sparse
+numpy
