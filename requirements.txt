@@ -1,7 +1,7 @@
-streamlit
-pandas
+streamlit = 1.54.0
+pandas = 2.2.3
 openpyxl
-chainladder
+chainladder = 0.9.1
 ipython
-sparse
-numpy
+sparse = 0.18.0
+numpy = 2.4.2
